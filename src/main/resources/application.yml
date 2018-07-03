@@ -1,0 +1,45 @@
+
+server:
+  port: 8082
+
+
+spring:
+  application:
+    name: streamMQ
+  cloud:
+    stream:
+      bindings:
+#        input:
+#          destination: foo
+#          binder: rabbit1
+        output:
+          destination: myMQ
+          group: abd  # 拥有 group 默认会持久化队列
+          binder: rabbit1
+      rabbit:
+        binder:
+
+        output:
+          producer:
+            bindingRoutingKey: gold.#  # 需要用这个来指定 RoutingKey
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 172.19.162.223
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /
+#        rabbit2:
+#          type: rabbit
+#          environment:
+#            spring:
+#              rabbitmq:
+#                host: 127.0.0.1
+#                port: 5676
+#                username: guest
+#                password: guest
+#                virtual-host: /
